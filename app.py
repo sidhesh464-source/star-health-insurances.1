@@ -11,9 +11,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Email configuration
-SENDER_EMAIL = "lokeshwaranb0406@gmail.com"
-SENDER_PASSWORD = "wlafhbbbsmtkxqoc"
-RECIPIENT_EMAIL = "lokeshwaranb0406@gmail.com"
+SENDER_EMAIL = "sidhesh464@gmail.com"
+SENDER_PASSWORD = "uwzsvojnvrhhzjyo"
+RECIPIENT_EMAIL = "sidhesh464@gmail.com"
 
 # Absolute path for leads file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
