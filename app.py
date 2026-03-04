@@ -7,6 +7,9 @@ import threading
 import json
 import os
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+
+executor = ThreadPoolExecutor(max_workers=2)
 
 app = Flask(__name__)
 
@@ -53,7 +56,7 @@ def save_lead_to_file(data, timestamp):
         print(f"Error writing to leads file: {e}")
         raise e
 
-def send_email_async(name, phone, age):
+def send_email(name, phone, age):
     try:
         subject = f"🚨 URGENT: New Star Health Lead - {name}"
         body = f"NEW LEAD RECEIVED\n\nName: {name}\nPhone: {phone}\nAge: {age}"
@@ -112,10 +115,8 @@ def submit_lead():
         # Save leads
         save_lead_to_file(data.copy(), arrival_time)
 
-        # Background email
-        email_thread = threading.Thread(target=send_email_async, args=(name, phone, age))
-        email_thread.daemon = True
-        email_thread.start()
+        # Send email instantly in the background so the website doesn't freeze
+        executor.submit(send_email, name, phone, age)
 
         return jsonify({"status": "success", "message": "Lead submitted successfully"})
 
